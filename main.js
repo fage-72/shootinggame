@@ -51,15 +51,33 @@ class Bear {
     }
 }
 
-// 이벤트 리스너
-canvas.addEventListener('mousemove', (e) => {
+// 조준 및 사격 위치 계산 함수
+function getPosition(e) {
     const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-});
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    // CSS로 인해 캔버스 크기가 변해도 내부 좌표(800x600)로 변환
+    return {
+        x: (clientX - rect.left) * (canvas.width / rect.width),
+        y: (clientY - rect.top) * (canvas.height / rect.height)
+    };
+}
 
-canvas.addEventListener('mousedown', () => {
+// 이벤트 리스너
+const handleMove = (e) => {
+    const pos = getPosition(e);
+    mouse.x = pos.x;
+    mouse.y = pos.y;
+};
+
+const handleShoot = (e) => {
     if (!gameActive) return;
+    
+    // 모바일에서는 터치 지점으로 조준경 이동 후 발사
+    const pos = getPosition(e.touches ? e.touches[0] : e);
+    mouse.x = pos.x;
+    mouse.y = pos.y;
 
     // 사격 소리
     assets.shotSound.currentTime = 0;
@@ -73,10 +91,22 @@ canvas.addEventListener('mousedown', () => {
             bear.isHit = true;
             score += 10;
             scoreElement.textContent = score;
-            break; // 한 번에 한 마리만
+            break; 
         }
     }
-});
+};
+
+canvas.addEventListener('mousemove', handleMove);
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    handleMove(e);
+}, { passive: false });
+
+canvas.addEventListener('mousedown', handleShoot);
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    handleShoot(e);
+}, { passive: false });
 
 startBtn.addEventListener('click', startGame);
 
