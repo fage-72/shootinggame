@@ -80,7 +80,13 @@ body.dark-mode h1 {
 .game-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.bonus-ball::before {
+    content: '+';
+    margin-right: 5px;
 }
 
 .number-ball {

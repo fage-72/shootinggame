@@ -10,12 +10,13 @@ generateBtn.addEventListener('click', () => {
         gameContainer.classList.add('game-container');
 
         const numbers = new Set();
-        while (numbers.size < 6) {
+        while (numbers.size < 7) {
             const randomNumber = Math.floor(Math.random() * 45) + 1;
             numbers.add(randomNumber);
         }
 
         const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+        const bonusNumber = sortedNumbers.pop();
 
         sortedNumbers.forEach(number => {
             const ball = document.createElement('div');
@@ -23,6 +24,11 @@ generateBtn.addEventListener('click', () => {
             ball.textContent = number;
             gameContainer.appendChild(ball);
         });
+
+        const bonusBall = document.createElement('div');
+        bonusBall.classList.add('number-ball', 'bonus-ball');
+        bonusBall.textContent = bonusNumber;
+        gameContainer.appendChild(bonusBall);
 
         numbersContainer.appendChild(gameContainer);
     }
