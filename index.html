@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>곰 잡기 슈팅 게임</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="lotto-machine">
-        <button id="theme-toggle-btn">☀️</button>
-        <h1>Lotto Number Generator</h1>
-        <button id="generate-btn">Generate Numbers</button>
-        <div id="numbers-container" class="numbers-container"></div>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-layer">
+            <div class="stat">Score: <span id="score">0</span></div>
+            <div class="stat">Time: <span id="timer">30</span>s</div>
+        </div>
+        <div id="start-screen">
+            <h1>곰 잡기 슈팅 게임</h1>
+            <p>제한 시간 내에 최대한 많은 곰을 잡으세요!</p>
+            <button id="start-btn">게임 시작</button>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
